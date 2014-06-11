@@ -7,6 +7,7 @@ Nueva foto
 {% block body_content %}
 <h1>Nueva foto</h1>
 <form method="POST">
+    {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Crear foto</button>
 </form>

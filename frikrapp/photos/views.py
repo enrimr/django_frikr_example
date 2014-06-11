@@ -111,7 +111,7 @@ def create_photo(request):
 
     form = PhotoForm()
     context = {
-        'form' = form
+        'form' : form
     }
 
     return render(request, 'photos/create_photo.html', context)
