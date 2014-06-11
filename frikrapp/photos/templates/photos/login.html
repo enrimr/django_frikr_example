@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Frikr Login</title>
-</head>
-<body>
-    {% include 'photos/includes/menu.html' %}
+{% extends 'photos/base.html' %}
+
+{% block head_title %}
+Frikr Login
+{% endblock %}
+
+{% block body_content %}
     <h1>Entra en Frikr</h1>
     {% for error in errors %}
         <p>{{ error }}</p>
@@ -15,5 +14,4 @@
         {{ form.as_p }} <!-- Pinta los campos como p -->
         <p><button type="submit">Entrar</button></p>
     </form>
-</body>
-</html>
+{% endblock %}

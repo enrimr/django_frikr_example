@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Perfil de {{ user.first_name }} {{ user.last_name }}</title>
-</head>
-<body>
-    {% include 'photos/includes/menu.html' %}
+{% extends 'photos/base.html' %}
+
+{% block head_title %}
+Perfil de {{ user.first_name }} {{ user.last_name }}
+{% endblock %}
+
+{% block body_content %}
     <h1>Perfil de {{ user.first_name }} {{ user.last_name }}</h1>
 
     {% include 'photos/includes/photo_list.html' %}
-</body>
-</html>
+{% endblock %}
