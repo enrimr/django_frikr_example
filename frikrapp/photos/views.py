@@ -64,7 +64,8 @@ def user_login(request):
             else:
                 if user.is_active:
                     login(request, user) # crea la sesión de usuario
-                    return redirect('/')
+                    next_url = request.GET.get('next', '/')
+                    return redirect(next_url)
                 else:
                     error_messages.append('El usuario no está activo')
     else:
