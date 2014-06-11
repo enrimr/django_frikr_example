@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from models import Photo, VISIBILITY_PUBLIC
 from django.http.response import HttpResponseNotFound
 from django.contrib.auth import authenticate, login, logout
+from forms import LoginForm
 
 def home(request): # En Django los controladores siempre reciben un objeto HttpRequest
     """
@@ -44,19 +45,27 @@ def user_login(request):
     """
     error_messages = []
     if request.method == 'POST':
-        username = request.POST.get('user_username')
-        password = request.POST.get('user_password')
-        user = authenticate(username=username, password=password)
-        if user is None:
-            error_messages.append('Nombre de usuario o contraseña incorrectos')
-        else:
-            if user.is_active:
-                login(request, user) # crea la sesión de usuario
-                return redirect('/')
+
+        login_form = LoginForm(request.POST)
+
+        if login_form.is_valid():
+
+            username = login_form.cleaned_fields.get('user_username')
+            password = login_form.cleaned_fields.get('user_password')
+            user = authenticate(username=username, password=password)
+            if user is None:
+                error_messages.append('Nombre de usuario o contraseña incorrectos')
             else:
-                error_messages.append('El usuario no está activo')
+                if user.is_active:
+                    login(request, user) # crea la sesión de usuario
+                    return redirect('/')
+                else:
+                    error_messages.append('El usuario no está activo')
+    else:
+        login_form = LoginForm()
 
     context = {
+        'form' : login_form,
         'errors' : error_messages
     }
 

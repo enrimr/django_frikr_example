@@ -5,14 +5,14 @@
     <title>Frikr Login</title>
 </head>
 <body>
+    {% include 'photos/includes/menu.html' %}
     <h1>Entra en Frikr</h1>
     {% for error in errors %}
         <p>{{ error }}</p>
     {% endfor %}
     <form method="POST">
         {% csrf_token %}
-        <p><input type="text" name="user_username" placeholder="Nombre de usuario"></p>
-        <p><input type="password" name="user_password" placeholder="Contraseña"></p>
+        {{ form.as_p }} <!-- Pinta los campos como p -->
         <p><button type="submit">Entrar</button></p>
     </form>
 </body>
