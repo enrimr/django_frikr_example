@@ -4,6 +4,8 @@ from models import Photo, VISIBILITY_PUBLIC
 from django.http.response import HttpResponseNotFound
 from django.contrib.auth import authenticate, login, logout
 from forms import LoginForm
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 def home(request): # En Django los controladores siempre reciben un objeto HttpRequest
     """
@@ -27,7 +29,11 @@ def photo_detail(request, pk):
     :param pk: primary key de la foto
     :return: objeto response
     """
-    possible_photos = Photo.objects.filter(pk=pk, visibility=VISIBILITY_PUBLIC)
+    possible_photos = Photo.objects.filter(pk=pk)
+    if request.user.is_authenticated():
+        possible_photos = possible_photos.filter(Q(owner=request.user) | Q(visibility=VISIBILITY_PUBLIC))
+    else:
+        possible_photos = possible_photos.filter(visibility=VISIBILITY_PUBLIC)
 
     if len(possible_photos) == 0:
         return HttpResponseNotFound('No existe la foto seleccionada')
@@ -80,6 +86,7 @@ def user_logout(request):
     logout(request)
     return redirect('/')
 
+@login_required() # forzamos a que el usuario esté autenticado
 def user_profile(request):
     """
     Presenta el perfil de un usuario con sus fotos
