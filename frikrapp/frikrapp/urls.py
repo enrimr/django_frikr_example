@@ -11,7 +11,7 @@ urlpatterns = patterns('',
 
     # Web URLs
     url(r'^$', views.HomeView.as_view()),
-    url(r'^photos/(?P<pk>[0-9]+)$', 'photos.views.photo_detail'),
+    url(r'^photos/(?P<pk>[0-9]+)$', views.PhotoDetailView.as_view()),
     # photo_detail va a recibir un parametro llamado pk
     # que es un numero de 1 o mas cifras entre 0-9
 

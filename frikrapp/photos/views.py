@@ -25,26 +25,27 @@ class HomeView(View):
 
         return render(request, 'photos/index.html', context)
 
-def photo_detail(request, pk):
-    """
-    Muestra el detalle de una foto
-    :param request: objeto request
-    :param pk: primary key de la foto
-    :return: objeto response
-    """
-    possible_photos = Photo.objects.filter(pk=pk)
-    if request.user.is_authenticated():
-        possible_photos = possible_photos.filter(Q(owner=request.user) | Q(visibility=VISIBILITY_PUBLIC))
-    else:
-        possible_photos = possible_photos.filter(visibility=VISIBILITY_PUBLIC)
+class PhotoDetailView(View):
+    def get(self, request, pk):
+        """
+        Muestra el detalle de una foto
+        :param request: objeto request
+        :param pk: primary key de la foto
+        :return: objeto response
+        """
+        possible_photos = Photo.objects.filter(pk=pk)
+        if request.user.is_authenticated():
+            possible_photos = possible_photos.filter(Q(owner=request.user) | Q(visibility=VISIBILITY_PUBLIC))
+        else:
+            possible_photos = possible_photos.filter(visibility=VISIBILITY_PUBLIC)
 
-    if len(possible_photos) == 0:
-        return HttpResponseNotFound('No existe la foto seleccionada')
-    else:
-        context = {
-            'photo': possible_photos[0]
-        }
-        return render(request,'photos/photo_detail.html', context)
+        if len(possible_photos) == 0:
+            return HttpResponseNotFound('No existe la foto seleccionada')
+        else:
+            context = {
+                'photo': possible_photos[0]
+            }
+            return render(request,'photos/photo_detail.html', context)
 
 def user_login(request):
     """
