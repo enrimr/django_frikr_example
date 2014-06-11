@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from models import Photo, VISIBILITY_PUBLIC
 from django.http.response import HttpResponseNotFound
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 def home(request): # En Django los controladores siempre reciben un objeto HttpRequest
     """
@@ -61,3 +61,12 @@ def user_login(request):
     }
 
     return render(request, 'photos/login.html', context)
+
+def user_logout(request):
+    """
+    Gestiona el logout de un usuario
+    :param request: objeto request
+    :return: objeto response
+    """
+    logout(request)
+    return redirect('/')
