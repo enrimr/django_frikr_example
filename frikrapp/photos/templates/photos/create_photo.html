@@ -6,6 +6,14 @@ Nueva foto
 
 {% block body_content %}
 <h1>Nueva foto</h1>
+
+{% if photo %}
+    <span style="color:green">
+        ¡Guardado con éxito!
+        <a href="/photos/{{ photo.pk }}">Ver foto</a>
+    </span>
+{% endif %}
+
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}

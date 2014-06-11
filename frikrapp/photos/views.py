@@ -109,9 +109,19 @@ def create_photo(request):
     :return: objeto response
     """
 
-    form = PhotoForm()
+    new_photo = None
+
+    if request.method == 'POST': # si le hemos dado al boton crear, vamos a validar el formulario y a guardar la foto
+        form = PhotoForm(request.POST)
+        if form.is_valid():
+            new_photo = form.save() # guardamos la foto en la base de datos
+
+    else: # si no, creamos un formulario vacio
+        form = PhotoForm()
+
     context = {
-        'form' : form
+        'form' : form,
+        'photo' : new_photo
     }
 
     return render(request, 'photos/create_photo.html', context)
