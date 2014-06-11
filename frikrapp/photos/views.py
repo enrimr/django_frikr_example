@@ -112,8 +112,8 @@ def create_photo(request):
     new_photo = None
 
     if request.method == 'POST': # si le hemos dado al boton crear, vamos a validar el formulario y a guardar la foto
-        new_photo = Photo(owner=request.user) # creamos foto para el usuario autenticado
-        form = PhotoForm(request.POST, instance=new_photo) # Le indicamos que en lugar de instanciarse una foto propio,
+        photo_with_user = Photo(owner=request.user) # creamos foto para el usuario autenticado
+        form = PhotoForm(request.POST, instance=photo_with_user) # Le indicamos que en lugar de instanciarse una foto propio,
                                                            # use new_photo que tiene ya asignado un usuario
         if form.is_valid():
             new_photo = form.save() # guardamos la foto en la base de datos
