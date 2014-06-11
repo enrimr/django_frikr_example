@@ -83,3 +83,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_URL = '/login'
+
+LICENSES = (
+    ('CC1', 'Creative Commons 1'),
+    ('CC2', 'Creative Commons 2'),
+    ('CC3', 'Creative Commons 3'),
+    ('CC4', 'Creative Commons 4'),
+)

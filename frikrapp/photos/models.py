@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
-LICENSES = (
+DEFAULT_LICENSES = (
     ('RIG', 'Copyright'),
     ('LEF', 'Copyleft'),
     ('CC', 'CreativeCommons')
 )
+
+LICENSES = getattr(settings, 'LICENSES', DEFAULT_LICENSES)
 
 VISIBILITY_PUBLIC = 'PUB'
 VISIBILITY_PRIVATE = 'PRI'
