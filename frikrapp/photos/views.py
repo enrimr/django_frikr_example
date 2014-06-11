@@ -8,7 +8,7 @@ def home(request): # En Django los controladores siempre reciben un objeto HttpR
     :return: objeto response
     """
 
-    photo_list = Photo.objects.all().order_by('-created_at')
+    photo_list = Photo.objects.all().order_by('-created_at')[:3]
 
     context = {
         'photos': photo_list
