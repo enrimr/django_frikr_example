@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     # que es un numero de 1 o mas cifras entre 0-9
 
     url(r'^login$', views.UserLoginView.as_view()),
-    url(r'^logout$', 'photos.views.user_logout'),
-    url(r'^profile$', 'photos.views.user_profile'),
+    url(r'^logout$', views.UserLogoutView.as_view()),
+    url(r'^profile$', views.UserProfileView.as_view()),
     url(r'^create$', 'photos.views.create_photo')
 )

@@ -7,6 +7,7 @@ from forms import LoginForm, PhotoForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
+from django.utils.decorators import method_decorator
 
 class HomeView(View):
 
@@ -89,28 +90,34 @@ class UserLoginView(View):
 
         return render(request, 'photos/login.html', context)
 
-def user_logout(request):
-    """
-    Gestiona el logout de un usuario
-    :param request: objeto request
-    :return: objeto response
-    """
-    logout(request)
-    return redirect('/')
+class UserLogoutView(View):
 
-@login_required() # forzamos a que el usuario esté autenticado
-def user_profile(request):
-    """
-    Presenta el perfil de un usuario con sus fotos
-    :param request: objeto request
-    :return: objeto response
-    """
+    def get(self, request):
+        """
+        Gestiona el logout de un usuario
+        :param request: objeto request
+        :return: objeto response
+        """
+        logout(request)
+        return redirect('/')
 
-    context = {
-        'photos' : request.user.photo_set.all()
-    }
+class UserProfileView(View):
 
-    return render(request, 'photos/profile.html', context)
+    @method_decorator(login_required()) # forzamos a que el usuario esté autenticado, como es un método de clase,
+                                    # tenemos que usar un decorador del decorador: @method_decorator(login_required()).
+                                    # Si fuera una función sin más, usaríamos solamente el decorador @login_required()
+    def get(self, request):
+        """
+        Presenta el perfil de un usuario con sus fotos
+        :param request: objeto request
+        :return: objeto response
+        """
+
+        context = {
+            'photos' : request.user.photo_set.all()
+        }
+
+        return render(request, 'photos/profile.html', context)
 
 @login_required()
 def create_photo(request):
