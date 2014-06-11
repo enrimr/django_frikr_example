@@ -50,8 +50,8 @@ def user_login(request):
 
         if login_form.is_valid():
 
-            username = login_form.cleaned_fields.get('user_username')
-            password = login_form.cleaned_fields.get('user_password')
+            username = login_form.cleaned_data.get('user_username')
+            password = login_form.cleaned_data.get('user_password')
             user = authenticate(username=username, password=password)
             if user is None:
                 error_messages.append('Nombre de usuario o contraseña incorrectos')
