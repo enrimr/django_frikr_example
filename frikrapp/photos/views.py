@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from forms import LoginForm, PhotoForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.views.generic import View
+from django.views.generic import View, ListView
 from django.utils.decorators import method_decorator
 
 class HomeView(View):
@@ -146,3 +146,8 @@ def create_photo(request):
     }
 
     return render(request, 'photos/create_photo.html', context)
+
+class PhotoListView(ListView):
+
+    model = Photo
+    template_name = 'photos/photo_list.html'

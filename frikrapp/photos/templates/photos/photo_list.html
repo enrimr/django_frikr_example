@@ -1,0 +1,12 @@
+{% extends 'photos/base.html' %}
+
+{% block head_title %}
+Listado de fotos
+{% endblock %}
+
+{% block body_content %}
+
+<h1>Listado de fotos</h1>
+{% include 'photos/includes/photo_list.html' with photos=object_list %}
+
+{% endblock %}
