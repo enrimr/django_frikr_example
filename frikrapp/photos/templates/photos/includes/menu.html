@@ -1,6 +1,7 @@
 <hr>
 <a href="/">Home</a>
 {% if user.is_authenticated %}
+    | <a href="/profile">Mi perfil</a>
     | <a href="/logout">Salir</a>
 {% else %}
     | <a href="/login">Login</a>

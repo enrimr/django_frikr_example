@@ -79,3 +79,16 @@ def user_logout(request):
     """
     logout(request)
     return redirect('/')
+
+def user_profile(request):
+    """
+    Presenta el perfil de un usuario con sus fotos
+    :param request: objeto request
+    :return: objeto response
+    """
+
+    context = {
+        'photos' : request.user.photo_set.all()
+    }
+
+    return render(request, 'photos/profile.html', context)
