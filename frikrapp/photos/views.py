@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from models import Photo
+from models import Photo, VISIBILITY_PUBLIC
 
 def home(request): # En Django los controladores siempre reciben un objeto HttpRequest
     """
@@ -8,7 +8,7 @@ def home(request): # En Django los controladores siempre reciben un objeto HttpR
     :return: objeto response
     """
 
-    photo_list = Photo.objects.all().order_by('-created_at')[:3]
+    photo_list = Photo.objects.filter(visibility=VISIBILITY_PUBLIC).order_by('-created_at')[:3]
 
     context = {
         'photos': photo_list
