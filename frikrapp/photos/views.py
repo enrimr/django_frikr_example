@@ -33,3 +33,13 @@ def photo_detail(request, pk):
             'photo': possible_photos[0]
         }
         return render(request,'photos/photo_detail.html', context)
+
+def user_login(request):
+    """
+    Gestiona el login de un usuario
+    :param request: objeto request
+    :return: objeto response
+    """
+    context = {}
+
+    return render(request, 'photos/login.html', context)

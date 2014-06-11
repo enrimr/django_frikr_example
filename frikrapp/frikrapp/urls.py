@@ -9,7 +9,10 @@ urlpatterns = patterns('',
 
     # Web URLs
     url(r'^$', 'photos.views.home'),
-    url(r'^photos/(?P<pk>[0-9]+)$', 'photos.views.photo_detail')
+    url(r'^photos/(?P<pk>[0-9]+)$', 'photos.views.photo_detail'),
     # photo_detail va a recibir un parametro llamado pk
     # que es un numero de 1 o mas cifras entre 0-9
+
+    url(r'^login$', 'photos.views.user_login'),
+    url(r'^logout$', 'photos.views.user_logout')
 )

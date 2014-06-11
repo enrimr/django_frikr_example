@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Frikr Login</title>
+</head>
+<body>
+    <h1>Entra en Frikr</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <p><input type="text" name="user_username" placeholder="Nombre de usuario"></p>
+        <p><input type="password" name="user_password" placeholder="Contraseña"></p>
+        <p><button type="submit">Entrar</button></p>
+    </form>
+</body>
+</html>
