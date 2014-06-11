@@ -151,3 +151,7 @@ class PhotoListView(ListView):
 
     model = Photo
     template_name = 'photos/photo_list.html'
+
+    # Sobrecargamos este método para edita rla query por defecto que lanza ListView
+    def get_queryset(self):
+        return Photo.objects.filter(visibility=VISIBILITY_PUBLIC)

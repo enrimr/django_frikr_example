@@ -3,11 +3,18 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>{% block head_title %} Frikr - Como Flickr pero en friki {% endblock %}</title>
+    <link href="/static/photos/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-{% include 'photos/includes/menu.html' %}
-{% block body_content %} {% endblock %}
-<hr>
-Frikr &copy; {% now "Y" %}. Algunos derechos reservados.
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                {% include 'photos/includes/menu.html' %}
+                {% block body_content %} {% endblock %}
+                <hr>
+                Frikr &copy; {% now "Y" %}. Algunos derechos reservados.
+            </div>
+        </div>
+    </div>
 </body>
 </html>
