@@ -115,6 +115,7 @@ def create_photo(request):
         form = PhotoForm(request.POST)
         if form.is_valid():
             new_photo = form.save() # guardamos la foto en la base de datos
+            form = PhotoForm() #para que nos borre la info que ya habíamos metido en el formulario
 
     else: # si no, creamos un formulario vacio
         form = PhotoForm()
