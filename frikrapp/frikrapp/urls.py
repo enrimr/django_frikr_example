@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     # photo_detail va a recibir un parametro llamado pk
     # que es un numero de 1 o mas cifras entre 0-9
 
-    url(r'^login$', 'photos.views.user_login'),
+    url(r'^login$', views.UserLoginView.as_view()),
     url(r'^logout$', 'photos.views.user_logout'),
     url(r'^profile$', 'photos.views.user_profile'),
     url(r'^create$', 'photos.views.create_photo')

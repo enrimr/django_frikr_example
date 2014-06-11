@@ -47,14 +47,23 @@ class PhotoDetailView(View):
             }
             return render(request,'photos/photo_detail.html', context)
 
-def user_login(request):
-    """
-    Gestiona el login de un usuario
-    :param request: objeto request
-    :return: objeto response
-    """
-    error_messages = []
-    if request.method == 'POST':
+class UserLoginView(View):
+
+    def get(self, request):
+        login_form = LoginForm()
+        context = {
+            'form': login_form
+        }
+
+        return render(request, 'photos/login.html', context)
+
+    def post(self, request):
+        """
+        Gestiona el login de un usuario
+        :param request: objeto request
+        :return: objeto response
+        """
+        error_messages = []
 
         login_form = LoginForm(request.POST)
 
@@ -72,15 +81,13 @@ def user_login(request):
                     return redirect(next_url)
                 else:
                     error_messages.append('El usuario no está activo')
-    else:
-        login_form = LoginForm()
 
-    context = {
-        'form' : login_form,
-        'errors' : error_messages
-    }
+        context = {
+            'form' : login_form,
+            'errors' : error_messages
+        }
 
-    return render(request, 'photos/login.html', context)
+        return render(request, 'photos/login.html', context)
 
 def user_logout(request):
     """
