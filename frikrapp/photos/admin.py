@@ -32,6 +32,7 @@ class PhotoAdmin(admin.ModelAdmin):
         (
             'URL, licencia y visibilidad',
             {
+                'classes' : ('collapse',),
                 'fields' : ('url','license', 'visibility')
             }
         ),
