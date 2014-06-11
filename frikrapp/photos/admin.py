@@ -4,6 +4,7 @@ from models import Photo
 class PhotoAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'license', 'visibility', 'owner_name')
+    list_filter = ('license', 'visibility')
 
     def owner_name(self, obj):
         return obj.owner.first_name + ' ' + obj.owner.last_name
