@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from models import Photo, VISIBILITY_PUBLIC
 from django.http.response import HttpResponseNotFound
 from django.contrib.auth import authenticate, login, logout
-from forms import LoginForm
+from forms import LoginForm, PhotoForm
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 
@@ -100,3 +100,18 @@ def user_profile(request):
     }
 
     return render(request, 'photos/profile.html', context)
+
+@login_required()
+def create_photo(request):
+    """
+    Gestiona la creación de una nueva foto
+    :param request: objeto request
+    :return: objeto response
+    """
+
+    form = PhotoForm()
+    context = {
+        'form' = form
+    }
+
+    return render(request, 'photos/create_photo.html', context)
