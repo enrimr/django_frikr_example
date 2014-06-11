@@ -6,6 +6,9 @@
 </head>
 <body>
     <h1>Entra en Frikr</h1>
+    {% for error in errors %}
+        <p>{{ error }}</p>
+    {% endfor %}
     <form method="POST">
         {% csrf_token %}
         <p><input type="text" name="user_username" placeholder="Nombre de usuario"></p>

@@ -1,6 +1,8 @@
-from django.shortcuts import render
+# -*- coding: utf-8 -*-
+from django.shortcuts import render, redirect
 from models import Photo, VISIBILITY_PUBLIC
 from django.http.response import HttpResponseNotFound
+from django.contrib.auth import authenticate, login
 
 def home(request): # En Django los controladores siempre reciben un objeto HttpRequest
     """
@@ -40,6 +42,22 @@ def user_login(request):
     :param request: objeto request
     :return: objeto response
     """
-    context = {}
+    error_messages = []
+    if request.method == 'POST':
+        username = request.POST.get('user_username')
+        password = request.POST.get('user_password')
+        user = authenticate(username=username, password=password)
+        if user is None:
+            error_messages.append('Nombre de usuario o contraseña incorrectos')
+        else:
+            if user.is_active:
+                login(request, user) # crea la sesión de usuario
+                return redirect('/')
+            else:
+                error_messages.append('El usuario no está activo')
+
+    context = {
+        'errors' : error_messages
+    }
 
     return render(request, 'photos/login.html', context)
