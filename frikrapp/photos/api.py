@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
-from serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
+from serializers import UserSerializer, PhotoSerializer, PhotoListSerializer, UserUpdateSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView # en lugar de importar View de django, importamos APIView de rest_framework
 from django.shortcuts import get_object_or_404
@@ -32,7 +32,11 @@ class UserDetailAPI(APIView):
 
     def put(self, request, pk):
         user = get_object_or_404(User, pk=pk)
-        serializer = UserSerializer(user, data=request.DATA)
+        serializer = UserUpdateSerializer(user, data=request.DATA)  # Usamos el serializador UserUpdateSerializer que
+                                                                    # hereda de UserSerializer, para que podamos hacer
+                                                                    # otro tipo de validación y que nos deje actualizar
+                                                                    # el usuario
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)

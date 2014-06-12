@@ -45,6 +45,14 @@ class UserSerializer(serializers.Serializer):
         #  la validación a mano, o definiendo un serializer UserUpdateSerializer que herede de UserSerializer y
         # hacer otro validate()
 
+class UserUpdateSerializer(UserSerializer):
+    """
+    Serializador que se usa al hacer PUT de un usuario y que hereda de UserSerializer.
+    La justificación de separar este serializador y no el otro, es porque en UserSerializer comprobamos que el usuario
+    no exista ya, lo que nos puede dar error en el PUT
+    """
+    def validate(self, attrs):
+        return attrs
 
 # Permite que BADWORDS se pueda reescribir desde el settings.py
 BADWORDS = getattr(settings, 'BADWORDS', ())
