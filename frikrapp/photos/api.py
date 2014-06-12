@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from models import Photo
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 class UserListAPI(APIView):
 
@@ -55,6 +56,7 @@ class PhotoListAPI(ListCreateAPIView):
     """
     queryset = Photo.objects.all()
     serializer_class = PhotoListSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_serializer_class(self):
         # Si etamos haciendo un POST devolvemos el serializador PhotoSerializer (que tiene todos los campos)
@@ -68,3 +70,4 @@ class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
 
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
