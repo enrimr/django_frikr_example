@@ -8,8 +8,11 @@ from rest_framework import status
 from models import Photo
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from permissions import UserPermission
 
 class UserListAPI(APIView):
+
+    permission_classes = (UserPermission,)
 
     def get(self, request):
         users = User.objects.all() # recuperamos todos los usuarios de la base de datos
@@ -26,28 +29,39 @@ class UserListAPI(APIView):
 
 class UserDetailAPI(APIView):
 
+    permission_classes = (UserPermission,)
+
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+        if request.user.is_superuser or request.user == user:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, pk):
         user = get_object_or_404(User, pk=pk)
-        serializer = UserUpdateSerializer(user, data=request.DATA)  # Usamos el serializador UserUpdateSerializer que
-                                                                    # hereda de UserSerializer, para que podamos hacer
-                                                                    # otro tipo de validación y que nos deje actualizar
-                                                                    # el usuario
+        if request.user.is_superuser or request.user == user:
+            serializer = UserUpdateSerializer(user, data=request.DATA)  # Usamos el serializador UserUpdateSerializer que
+                                                                        # hereda de UserSerializer, para que podamos hacer
+                                                                        # otro tipo de validación y que nos deje actualizar
+                                                                        # el usuario
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, pk):
         user = get_object_or_404(User, pk=pk)
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.user.is_superuser or request.user == user:
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 class PhotoListAPI(ListCreateAPIView):
     """

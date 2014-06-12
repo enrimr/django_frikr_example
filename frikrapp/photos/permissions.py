@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from rest_framework import permissions
-from api import UserDetailAPI
 
 class UserPermission(permissions.BasePermission):
 
@@ -11,6 +10,11 @@ class UserPermission(permissions.BasePermission):
         :param view: Vista desde donde se ejecuta la acción
         :return: boolean
         """
+
+        # Lo declaramos aquí para que no nos de problemas de dependencia cruzada. Se importará cuando se llame a
+        # la función y no siempre que se cargue el fichero
+        # EVITA LA INTERDEPENDENCIA con api.py
+        from api import UserDetailAPI
 
         # Dejamos hacer un POST a todos el mundo
         if request.method == "POST":
@@ -25,7 +29,7 @@ class UserPermission(permissions.BasePermission):
             return True
 
         # en cualquier otro caso, no permitimos realizar la acción
-        else
+        else:
             return False
 
     def has_object_permission(self, request, view, obj):
