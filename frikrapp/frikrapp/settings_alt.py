@@ -4,3 +4,5 @@ from settings import *
 LICENSES = (
     ('RIG', 'Copyright'),
 )
+
+BADWORDS = (u'afinabanjos', u'mascachapas', u'abrazafarolas')
