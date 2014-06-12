@@ -97,6 +97,12 @@ class PhotoListAPI(PhotoAPIQueryset, ListCreateAPIView): # llama al metod de la 
         # y si es un GET, usamos el PhotoListSerializer que solo tiene los 3 campos que queremos
         return PhotoSerializer if self.request.method == "POST" else self.serializer_class
 
+    def pre_save(self, obj):
+        """
+        Asigna la autoría de la foto al usuario autenticado al crearla
+        """
+        obj.owner = self.request.user
+
 
 class PhotoDetailAPI(PhotoAPIQueryset, RetrieveUpdateDestroyAPIView):
     """
