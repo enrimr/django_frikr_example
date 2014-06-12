@@ -5,10 +5,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView # en lugar de importar View de django, importamos APIView de rest_framework
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from models import Photo
+from models import Photo, VISIBILITY_PUBLIC
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from permissions import UserPermission
+from django.db.models import Q
 
 class UserListAPI(APIView):
 
@@ -72,10 +73,29 @@ class PhotoListAPI(ListCreateAPIView):
     serializer_class = PhotoListSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
+    def get_queryset(self):
+        """
+        Devuelve un queryset en función de varios criterios
+        """
+
+        # Si es superusuario, devuelve la lista entera
+        if self.request.user.is_superuser:
+            return Photo.objects.all()
+
+        # Si el usuario no es superuser pero está autenticado, devolvemos todas las fotos públicas y todas sus fotos
+        elif self.request.user.is_authenticated():
+            return Photo.objects.filter(Q(visibility=VISIBILITY_PUBLIC) | Q(owner=self.request.user))
+
+        # En cualquier otro caso, devuelvo solamente las fotos públicas
+        else:
+            return Photo.objects.filter(visibility=VISIBILITY_PUBLIC)
+
+
     def get_serializer_class(self):
-        # Si etamos haciendo un POST devolvemos el serializador PhotoSerializer (que tiene todos los campos)
+        # Si estamos haciendo un POST devolvemos el serializador PhotoSerializer (que tiene todos los campos)
         # y si es un GET, usamos el PhotoListSerializer que solo tiene los 3 campos que queremos
         return PhotoSerializer if self.request.method == "POST" else self.serializer_class
+
 
 class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
     """
