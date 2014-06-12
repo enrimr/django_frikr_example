@@ -17,12 +17,3 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = ['name', 'url', 'description', 'license', 'visibility']
-
-    def clean(self):
-        cleaned_data = super(PhotoForm,self).clean()
-        description = cleaned_data.get('description', '')
-        for badword in BADWORDS:
-            if badword in description:
-                raise forms.ValidationError(badword + u' no está permitido')
-
-        return cleaned_data

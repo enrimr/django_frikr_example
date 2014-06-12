@@ -54,8 +54,6 @@ class UserUpdateSerializer(UserSerializer):
     def validate(self, attrs):
         return attrs
 
-# Permite que BADWORDS se pueda reescribir desde el settings.py
-BADWORDS = getattr(settings, 'BADWORDS', ())
 
 # Las importaciones no tienen por qué ser al principio del fichero
 from models import Photo
@@ -64,13 +62,6 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-
-    def validate_description(self, attrs, source):
-        description = attrs.get(source, '')
-        for badword in BADWORDS:
-            if badword.lower() in description.lower():
-                raise serializers.ValidationError(badword + u" no está permitida")
-        return attrs # Ha ido bien
 
 class PhotoListSerializer(PhotoSerializer):
 

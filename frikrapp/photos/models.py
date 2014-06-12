@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 DEFAULT_LICENSES = (
     ('RIG', 'Copyright'),
@@ -18,6 +20,9 @@ VISIBILITY = (
     (VISIBILITY_PRIVATE, 'Privada')
 )
 
+# Permite que BADWORDS se pueda reescribir desde el settings.py
+BADWORDS = getattr(settings, 'BADWORDS', ())
+
 class Photo(models.Model):
 
     owner = models.ForeignKey(User) # Clave foranea User
@@ -31,3 +36,8 @@ class Photo(models.Model):
 
     def __unicode__(self):
         return self.name # para mostrar el campo name como nombre en la tabla
+
+    def clean(self):
+        for badword in BADWORDS:
+            if badword.lower() in self.description.lower():
+                raise ValidationError(badword + u' no está permitido')
