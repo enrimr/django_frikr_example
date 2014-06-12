@@ -52,6 +52,11 @@ class PhotoListAPI(ListCreateAPIView):
     queryset = Photo.objects.all()
     serializer_class = PhotoListSerializer
 
+    def get_serializer_class(self):
+        # Si etamos haciendo un POST devolvemos el serializador PhotoSerializer (que tiene todos los campos)
+        # y si es un GET, usamos el PhotoListSerializer que solo tiene los 3 campos que queremos
+        return PhotoSerializer if self.request.method == "POST" else self.serializer_class
+
 class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
     """
     Implementa el API de detalle (GET), actualización (PUT) y borrado (DELETE)
