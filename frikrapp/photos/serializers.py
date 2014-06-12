@@ -33,6 +33,13 @@ class UserSerializer(serializers.Serializer):
 
         return instance
 
+    def validate(self, attrs):
+        existent_users = User.objects.filter(username=attrs.get('username'))
+        if len(existent_users) > 0:
+            raise serializers.ValidationError(u"Ya existe el usuario: " + attrs.get('username'))
+        return attrs # todo ha ido bien
+
+    
 from models import Photo
 
 class PhotoSerializer(serializers.ModelSerializer):
