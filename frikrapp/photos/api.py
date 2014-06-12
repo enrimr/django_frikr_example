@@ -64,14 +64,7 @@ class UserDetailAPI(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-class PhotoListAPI(ListCreateAPIView):
-    """
-    Implementa el API de listado (GET) y creación (POST) de fotos
-    (Sí, enserio)
-    """
-    queryset = Photo.objects.all()
-    serializer_class = PhotoListSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+class PhotoAPIQueryset:
 
     def get_queryset(self):
         """
@@ -90,6 +83,14 @@ class PhotoListAPI(ListCreateAPIView):
         else:
             return Photo.objects.filter(visibility=VISIBILITY_PUBLIC)
 
+class PhotoListAPI(PhotoAPIQueryset, ListCreateAPIView): # llama al metod de la primera clase que hereda
+    """
+    Implementa el API de listado (GET) y creación (POST) de fotos
+    (Sí, enserio)
+    """
+    queryset = Photo.objects.all()
+    serializer_class = PhotoListSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get_serializer_class(self):
         # Si estamos haciendo un POST devolvemos el serializador PhotoSerializer (que tiene todos los campos)
@@ -97,7 +98,7 @@ class PhotoListAPI(ListCreateAPIView):
         return PhotoSerializer if self.request.method == "POST" else self.serializer_class
 
 
-class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
+class PhotoDetailAPI(PhotoAPIQueryset, RetrieveUpdateDestroyAPIView):
     """
     Implementa el API de detalle (GET), actualización (PUT) y borrado (DELETE)
     """
