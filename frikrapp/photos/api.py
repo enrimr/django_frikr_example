@@ -6,6 +6,7 @@ from rest_framework.views import APIView # en lugar de importar View de django, 
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from models import Photo
+from rest_framework.generics import ListCreateAPIView
 
 class UserListAPI(APIView):
 
@@ -43,9 +44,10 @@ class UserDetailAPI(APIView):
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class PhotoListAPI(APIView):
-
-    def get(self, request):
-        photos = Photo.objects.all()
-        serializer = PhotoSerializer(photos, many=True)
-        return Response(serializer.data)
+class PhotoListAPI(ListCreateAPIView):
+    """
+    Implementa el API de listado (GET) y creación (POST) de fotos
+    (Sí, enserio)
+    """
+    queryset = Photo.objects.all()
+    serializer_class = PhotoSerializer
