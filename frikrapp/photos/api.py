@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView # en lugar de importar View de django, importamos APIView de rest_framework
+from django.shortcuts import get_object_or_404
 
 class UserListAPI(APIView):
 
@@ -16,5 +17,21 @@ class UserListAPI(APIView):
         if serializer.is_valid(): # los serializer funcionan como los djangoforms, así que hay que validarlo
             serializer.save()     # guardamos en la base de datos el nuevo usuario
             return Response(serializer.data, status=201)
+        else:
+            return Response(serializer.errors, status=400)
+
+class UserDetailAPI(APIView):
+
+    def get(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        user = get_object_or_404(User, pk=pk)
+        serializer = UserSerializer(user, data=request.DATA)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=202)
         else:
             return Response(serializer.errors, status=400)

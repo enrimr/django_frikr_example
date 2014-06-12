@@ -22,5 +22,6 @@ urlpatterns = patterns('',
     url(r'^create$', 'photos.views.create_photo'),
 
     # API URLs
-    url(r'^api/1.0/users/$', api.UserListAPI.as_view())
+    url(r'^api/1.0/users/$', api.UserListAPI.as_view()),
+    url(r'^api/1.0/users/(?P<pk>[0-9]+)$', api.UserDetailAPI.as_view())
 )
