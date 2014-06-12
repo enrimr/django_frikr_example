@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
-from serializers import UserSerializer, PhotoSerializer
+from serializers import UserSerializer, PhotoSerializer, PhotoListSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView # en lugar de importar View de django, importamos APIView de rest_framework
 from django.shortcuts import get_object_or_404
@@ -50,7 +50,7 @@ class PhotoListAPI(ListCreateAPIView):
     (Sí, enserio)
     """
     queryset = Photo.objects.all()
-    serializer_class = PhotoSerializer
+    serializer_class = PhotoListSerializer
 
 class PhotoDetailAPI(RetrieveUpdateDestroyAPIView):
     """
