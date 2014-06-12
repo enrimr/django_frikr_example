@@ -62,6 +62,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
+        read_only_fields = ('owner',) # Hace que el campo owner no pueda ser modificado ni asignado manualmente
 
 class PhotoListSerializer(PhotoSerializer):
 
