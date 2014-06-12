@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for frikrapp project.
 
@@ -91,3 +92,12 @@ LICENSES = (
     ('CC3', 'Creative Commons 3'),
     ('CC4', 'Creative Commons 4'),
 )
+
+BADWORDS = (u'afinabanjos', u'mascachapas', u'abrazafarolas')
+
+#Configuración de rest_framework
+REST_FRAMEWORK = {
+    'PAGINATE_BY' : 5,
+    'MAX_PAGINATE_BY' : 10,
+    'PAGINATE_BY_PARAM' : 'page_size'
+}
