@@ -32,7 +32,7 @@ class UserPermission(permissions.BasePermission):
         else:
             return False
 
-    def has_object_permission(self, request, view, obj):
+    def has_object_permission(self, request, view, obj): # esto era para las fotos xD
         """
         Define si se tiene permiso para hacer PUT o DELETE sobre obj
         Sólo tiene permiso si es propietario o es superuser
