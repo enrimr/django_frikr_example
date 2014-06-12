@@ -32,3 +32,10 @@ class UserSerializer(serializers.Serializer):
         instance.password = new_password
 
         return instance
+
+from models import Photo
+
+class PhotoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Photo

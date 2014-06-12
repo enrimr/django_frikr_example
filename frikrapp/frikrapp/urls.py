@@ -23,5 +23,8 @@ urlpatterns = patterns('',
 
     # API URLs
     url(r'^api/1.0/users/$', api.UserListAPI.as_view()),
-    url(r'^api/1.0/users/(?P<pk>[0-9]+)$', api.UserDetailAPI.as_view())
+    url(r'^api/1.0/users/(?P<pk>[0-9]+)$', api.UserDetailAPI.as_view()),
+
+    # Photo API URLs
+    url(r'^api/1.0/photos/$', api.PhotoListAPI.as_view())
 )
