@@ -66,7 +66,7 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = Photo
 
     def validate_description(self, attrs, source):
-        description = attrs.get(source)
+        description = attrs.get(source, '')
         for badword in BADWORDS:
             if badword.lower() in description.lower():
                 raise serializers.ValidationError(badword + u" no está permitida")
